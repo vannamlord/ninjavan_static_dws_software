@@ -103,10 +103,8 @@ body {
     border-radius: 1px;
     height: 75%;
     box-sizing: border-box;
-    font-size: 40mm;
     text-align: center;
     align-items: center;
-    position: relative; /* Ensure the panel is relatively positioned */
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -331,7 +329,6 @@ body {
 #history-table th {
     background-color: #9af3e0;
 }
-
 #history-table td {
     font-size: 14px; /* Default font size */
 }
@@ -340,11 +337,13 @@ body {
 #history-table th:nth-child(1),
 #history-table td:nth-child(1) {
     width: 25%; /* Adjust width as needed */
+    text-align: left;
 }
 
 #history-table th:nth-child(2),
 #history-table td:nth-child(2) {
     width: 10%; /* Adjust width as needed */
+    text-align: center;
 }
 
 #history-table th:nth-child(3),
