@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NinjaVan</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="top-panel">
+        <div class="item item-1">Processed in the last hour: <br><span id="processedInLastHour">43</span></div>
+        <div class="item item-2">Parcels Scanned: <br><span id="parcelsScanned">2584</span></div>
+        <div class="item item-3">Blank Dimension Count: <br><span id="blankDimensionCount">1356</span></div>
+        <div class="item item-4">Positive Reply: <br><span id="positiveReply">2556</span></div>
+        <div class="item item-5">Negative Reply: <br><span id="negativeReply">10</span></div>
+        <div class="item item-6">Timeout Reply: <br><span id="timeoutReply">0</span></div>
+        <div class="item item-7">Device ID: <br><span id="deviceId">VNDWS-HN-29B-SR</span></div>
+        <div class="item item-8">Internet: <br><span id="internetStatus">LAN</span></div>
+    </div>
+    <div class="bottom-container">
+        <div class="left-panel">
+            <div class="sort-zone-panel">
+                <div class="sort-zone-container-panel">
+                    <div class="sub-panel order-tag-panel"></div>
+                    <div class="sub-panel tiger-zone-panel"></div>
+                    <div class="sub-panel sort-hub-panel"></div>
+                </div>
+            </div>
+            <div class="action-panel">
+                <div class="qr-container">
+                    <div class="qr-code">
+                        <p>Scan to Power Off</p>
+                        <img src="D:\\WORKING_FILE\\Working_File\\Software_Dev\\static_DWS_project\\image_data\\Shutdown_QR.jpeg" alt="QR Code to Power Off">
+                    </div>
+                    <img src="D:\\WORKING_FILE\\Working_File\\Software_Dev\\static_DWS_project\\image_data\\Logo_Ninjavan.jpeg" class="center-image" alt="Center Image">
+                    <div class="qr-code">
+                        <p>Scan to Clear Screen</p>
+                        <img src="D:\\WORKING_FILE\\Working_File\\Software_Dev\\static_DWS_project\\image_data\\reset_QR.jpeg" alt="QR Code to Clear Screen">
+                    </div>
+                </div>
+                <img src="D:\\WORKING_FILE\\Working_File\\Software_Dev\\static_DWS_project\\image_data\\panel_Ninjavan.jpg" class="bottom-image" alt="Bottom Image">
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="tid-panel">
+                <h1>AWB:</h1>
+            </div>
+            <div class="parcel-image-panel">
+                <div class="dimensions">
+                    <p id="length"><span>Length:&nbsp;&nbsp;</span><span id="lengthValue"></span></p>
+                    <p id="width"><span>Width:&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="widthValue"></span></p>
+                    <p id="height"><span>Height:&nbsp;&nbsp;&nbsp;</span><span id="heightValue"></span></p>
+                    <p id="weight"><span>Weight:&nbsp;&nbsp;&nbsp;</span><span id="weightValue"></span></p>
+                </div>
+                <div class="image-container">
+                    <img src="C:\\Users\\NamVanPC\\Documents\\Image_Testing\\SPEVN234609474384R_202126.jpg" alt="Parcel Image">
+                </div>
+            </div>
+            <div class="history-panel">
+                <table id="history-table">
+                    <thead>
+                        <tr>
+                            <th>AWB</th>
+                            <th>Weight</th>
+                            <th>Length</th>
+                            <th>Width</th>
+                            <th>Height</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table rows will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="renderer.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

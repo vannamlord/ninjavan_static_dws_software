@@ -1,0 +1,14 @@
+{
+  "name": "ninjavanapp",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^31.0.1"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7"
+  }
+}
