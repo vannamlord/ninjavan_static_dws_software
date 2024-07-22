@@ -17,7 +17,7 @@ class CameraClient {
 
             this.client.on('error', (err) => {
                 // Can do some actions in here
-                reject(err);
+                reject(new Error('Can not connect Camera'));
             });
         });
     }
