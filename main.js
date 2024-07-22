@@ -41,10 +41,12 @@ ipcMain.handle('get-camera-data', async () => {
         await cameraClient.connect();
         await cameraClient.sendCommand(CMD_START);
         const data = await cameraClient.sendCommand(CMD_STOP);
-        cameraClient.close();
-        return data;
     } catch (err) {
+        data = 'timeout';
+    }
+    finally{
         cameraClient.close();
-        throw err;
+        console.log('Final data: ', data)
+        return data;
     }
 });
