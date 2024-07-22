@@ -1,3 +1,4 @@
+const { ipcRenderer } = require('electron');
 document.addEventListener('DOMContentLoaded', () => {
 
     const awbElement = document.querySelector('.tid-panel h1');
@@ -89,9 +90,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
     }
+    
     // Function to fetch new data from the API or server
     async function fetchData(trackingId) {
         try {
+            const cameraData = await ipcRenderer.invoke('get-camera-data');
+            
             //const response = await fetch('your_api_endpoint'); // Replace with your API endpoint
             //const data = await response.json();
             random_length = parseFloat(Math.random() * (100 - 5) + 5).toFixed(3).toString();
@@ -99,31 +103,31 @@ document.addEventListener('DOMContentLoaded', () => {
             random_height = parseFloat(Math.random() * (100 - 5) + 5).toFixed(3).toString();
             random_weight = parseFloat(Math.random() * (15 - 5) + 5).toFixed(3).toString();
             inbound_tag_value = '';
-            if (trackingId == 'VNDWSREPLY001'){
+            if (trackingId == 'VNDWSREPLY001' || trackingId == '1'){
                 inbound_error_value = 'On Hold Parcel (Recovery)';
-            }else if(trackingId == 'VNDWSREPLY002'){
+            }else if(trackingId == 'VNDWSREPLY002'|| trackingId == '2'){
                 inbound_error_value = 'Completed Parcel';
-            }else if(trackingId == 'VNDWSREPLY003'){
+            }else if(trackingId == 'VNDWSREPLY003'|| trackingId == '3'){
                 inbound_error_value = 'Returned To Sender Parcel';
-            }else if(trackingId == 'VNDWSREPLY004'){
+            }else if(trackingId == 'VNDWSREPLY004'|| trackingId == '4'){
                 inbound_error_value = 'Canceled Parcel';
-            }else if(trackingId == 'VNDWSREPLY005'){
+            }else if(trackingId == 'VNDWSREPLY005'|| trackingId == '5'){
                 inbound_error_value = 'Routed Parcel';
-            }else if(trackingId == 'VNDWSREPLY006'){
+            }else if(trackingId == 'VNDWSREPLY006'|| trackingId == '6'){
                 inbound_error_value = 'Tranferred to 3PL Parcel';
-            }else if(trackingId == 'VNDWSREPLY007'){
+            }else if(trackingId == 'VNDWSREPLY007'|| trackingId == '7'){
                 inbound_error_value = 'Routed Parcel';
-            }else if(trackingId == 'VNDWSREPLY008'){
+            }else if(trackingId == 'VNDWSREPLY008'|| trackingId == '8'){
                 inbound_error_value='';
-            }else if(trackingId == 'NVVNSTAMP999999998'){
+            }else if(trackingId == 'NVVNSTAMP999999998'|| trackingId == '9'){
                 inbound_tag_value = 'GTC';
                 inbound_error_value='';
-            }else if(trackingId == 'VNDWSREPLY010'){
+            }else if(trackingId == 'VNDWSREPLY010'|| trackingId == '10'){
                 inbound_error_value='';
-            }else if(trackingId == 'INVALID123'){
+            }else if(trackingId == 'INVALID123'|| trackingId == '11'){
                 inbound_error_value = 'Invalid Parcel';
             }
-            else if(trackingId == 'TESTTIMEOUT'){
+            else if(trackingId == 'TESTTIMEOUT'|| trackingId == 'ERR'){
                 inbound_error_value = 'Timeout Scan Again';
             }
             data = {
