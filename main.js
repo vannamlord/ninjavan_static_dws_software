@@ -27,23 +27,6 @@ app.on('activate', () => {
         createWindow();
     }
 });
-function timeoutPromise(ms, promise) {
-    return new Promise((resolve, reject) => {
-        const timeoutId = setTimeout(() => {
-            reject(new Error(`Operation timed out after ${ms} ms`));
-        }, ms);
-
-        promise
-            .then((res) => {
-                clearTimeout(timeoutId);
-                resolve(res);
-            })
-            .catch((err) => {
-                clearTimeout(timeoutId);
-                reject(err);
-            });
-    });
-}
 // IPC event handler to interact with the camera
 ipcMain.handle('get-camera-data', async () => {
     const CAMERA_IP = '192.168.1.108';
@@ -53,10 +36,11 @@ ipcMain.handle('get-camera-data', async () => {
     const TIMEOUT = 2000; // 2 seconds timeout
 
     const cameraClient = new CameraClient(CAMERA_IP, CAMERA_PORT, TIMEOUT);
+
     try {
-        await timeoutPromise(TIMEOUT, cameraClient.connect());
-        await timeoutPromise(TIMEOUT, cameraClient.sendCommand(CMD_START));
-        const data = await timeoutPromise(TIMEOUT, cameraClient.sendCommand(CMD_STOP));
+        await cameraClient.connect();
+        await cameraClient.sendCommand(CMD_START);
+        const data = await cameraClient.sendCommand(CMD_STOP);
         cameraClient.close();
         return data;
     } catch (err) {
