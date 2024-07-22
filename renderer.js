@@ -85,8 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             orderTagPanel.textContent = data.inbound_error;
-
-            
         }
         
     }
@@ -95,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchData(trackingId) {
         try {
             const cameraData = await ipcRenderer.invoke('get-camera-data');
-            
+            console.log('Final data: ', cameraData);
             //const response = await fetch('your_api_endpoint'); // Replace with your API endpoint
             //const data = await response.json();
             random_length = parseFloat(Math.random() * (100 - 5) + 5).toFixed(3).toString();

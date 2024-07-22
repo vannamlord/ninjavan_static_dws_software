@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const CameraClient = require('./CameraSocket');
 function createWindow() {
@@ -27,7 +27,23 @@ app.on('activate', () => {
         createWindow();
     }
 });
+function timeoutPromise(ms, promise) {
+    return new Promise((resolve, reject) => {
+        const timeoutId = setTimeout(() => {
+            reject(new Error(`Operation timed out after ${ms} ms`));
+        }, ms);
 
+        promise
+            .then((res) => {
+                clearTimeout(timeoutId);
+                resolve(res);
+            })
+            .catch((err) => {
+                clearTimeout(timeoutId);
+                reject(err);
+            });
+    });
+}
 // IPC event handler to interact with the camera
 ipcMain.handle('get-camera-data', async () => {
     const CAMERA_IP = '192.168.1.108';
