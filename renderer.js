@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const orderTagPanel = document.querySelector('.order-tag-panel');
     const tigerZonePanel = document.querySelector('.tiger-zone-panel');
     const sortHubPanel = document.querySelector('.sort-hub-panel');
+    const imgElement = document.querySelector('.image-container img');
 
     function updateSpans(data) {
         document.getElementById('processedInLastHour').textContent = data.processedInLastHour;
@@ -92,8 +93,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to fetch new data from the API or server
     async function fetchData(trackingId) {
         try {
-            const cameraData = await ipcRenderer.invoke('get-camera-data');
-            console.log('Final data: ', cameraData);
+            const { data, imagePath, error } = await ipcRenderer.invoke('get-camera-data');
+            if (error) {
+                console.error('Error fetching data:', error);
+                return;
+            }
+            console.log('Camera data:', data);
+            console.log('Image saved at:', imagePath);
+            // Display the image in the img element if imagePath is available
+            if (imagePath) {
+                imgElement.src = `${imagePath}`;
+            } else {
+                imgElement.src = '';
+                imgElement.alt = '';
+            }
             //const response = await fetch('your_api_endpoint'); // Replace with your API endpoint
             //const data = await response.json();
             random_length = parseFloat(Math.random() * (100 - 5) + 5).toFixed(3).toString();

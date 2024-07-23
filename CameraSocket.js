@@ -1,4 +1,16 @@
 const net = require('net');
+const ftp = require('basic-ftp');
+const path = require('path');
+const fs = require('fs');
+
+const ftpConfig = {
+    host: "192.168.1.108",
+    port: 21,
+    user: "admin1",
+    password: "Admin123.",
+    secure: false
+};
+const ftpClient = new ftp.Client();
 
 class CameraClient {
     constructor(ip, port, timeout = 2000) {
@@ -11,13 +23,11 @@ class CameraClient {
     connect() {
         return new Promise((resolve, reject) => {
             this.client.connect(this.port, this.ip, () => {
-                // Can do some actions in here
                 resolve();
             });
 
             this.client.on('error', (err) => {
-                // Can do some actions in here
-                reject(new Error('Can not connect Camera'));
+                reject(new Error('Cannot connect to camera'));
             });
         });
     }
@@ -28,32 +38,46 @@ class CameraClient {
 
             const timeoutId = setTimeout(() => {
                 if (!isResolved) {
-                    // console.error('Timeout waiting for data');
-                    // Can do some actions in here
                     this.client.removeAllListeners('data');
                     reject(new Error('Timeout waiting for data'));
                 }
             }, this.timeout);
 
-            this.client.write(command, 'utf8', () => {
-                // Can do some actions in here
-            });
+            this.client.write(command, 'utf8');
 
-            this.client.on('data', (data) => {
+            this.client.on('data', async (data) => {
                 if (!isResolved) {
                     clearTimeout(timeoutId);
                     isResolved = true;
-                    // console.log('Received data:', data.toString());
-                    // Can do some actions in here
-                    resolve(data.toString());
+                    const responseData = data.toString();
+                    resolve(responseData);
+
+                    // Check for image name in the response data
+                    const imageNameMatch = responseData.match(/ImgName\s*=\s*(\/\S+\.jpg)/);
+                    if (imageNameMatch) {
+                        const imageName = imageNameMatch[1];
+                        const localImagePath = path.join('/home/admin1/Desktop/Image_store', path.basename(imageName));
+                        const remoteImagePath = imageName;
+
+                        try {
+                            await ftpClient.access(ftpConfig);
+                            await ftpClient.downloadTo(localImagePath, remoteImagePath);
+                            resolve({ responseData, imagePath: localImagePath });
+                        } catch (err) {
+                            console.error('FTP error:', err);
+                            reject(new Error('FTP error: ' + err.message));
+                        } finally {
+                            ftpClient.close();
+                        }
+                    } else {
+                        resolve({ responseData, imagePath: null });
+                    }
                 }
             });
 
             this.client.on('error', (err) => {
                 if (!isResolved) {
                     clearTimeout(timeoutId);
-                    // console.error('Connection error:', err);
-                    // Can do some actions in here
                     reject(err);
                 }
             });
@@ -62,7 +86,6 @@ class CameraClient {
 
     close() {
         this.client.end();
-        // Can do some actions in here
     }
 }
 

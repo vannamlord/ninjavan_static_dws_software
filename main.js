@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const CameraClient = require('./CameraSocket');
+
 function createWindow() {
     const mainWindow = new BrowserWindow({
         webPreferences: {
@@ -27,7 +28,7 @@ app.on('activate', () => {
         createWindow();
     }
 });
-// IPC event handler to interact with the camera
+
 ipcMain.handle('get-camera-data', async () => {
     const CAMERA_IP = '192.168.1.108';
     const CAMERA_PORT = 3000;
@@ -40,12 +41,12 @@ ipcMain.handle('get-camera-data', async () => {
     try {
         await cameraClient.connect();
         await cameraClient.sendCommand(CMD_START);
-        const data = await cameraClient.sendCommand(CMD_STOP);
+        const { responseData, imagePath } = await cameraClient.sendCommand(CMD_STOP);
         cameraClient.close();
-        return data;
+
+        return { data: responseData, imagePath };
     } catch (err) {
         cameraClient.close();
-        data = err;
-        return data;
+        return { error: err.message };
     }
 });

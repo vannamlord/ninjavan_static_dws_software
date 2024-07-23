@@ -9,6 +9,7 @@
     "electron": "^31.0.1"
   },
   "dependencies": {
+    "basic-ftp": "^5.0.5",
     "sqlite3": "^5.1.7"
   }
 }
