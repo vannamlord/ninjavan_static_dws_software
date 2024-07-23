@@ -43,7 +43,6 @@ ipcMain.handle('get-camera-data', async () => {
         await cameraClient.sendCommand(CMD_START);
         const { responseData, imagePath } = await cameraClient.sendCommand(CMD_STOP);
         cameraClient.close();
-
         return { data: responseData, imagePath };
     } catch (err) {
         cameraClient.close();
